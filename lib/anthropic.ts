@@ -1,17 +1,16 @@
 import { createAnthropic } from "@ai-sdk/anthropic";
-import { createOpenAI } from "@ai-sdk/openai";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 
 const apiKey = process.env.ANTHROPIC_API_KEY ?? "";
 const isOpenRouter = apiKey.startsWith("sk-or-");
 
 /**
  * Configure the model dynamically based on key prefix.
- * If OpenRouter key is provided, use OpenRouter endpoint with Claude 3.5 Sonnet.
+ * If OpenRouter key is provided, use the dedicated OpenRouter provider.
  * Otherwise, use the native Anthropic endpoint.
  */
 export const model = isOpenRouter
-  ? createOpenAI({
-      baseURL: "https://openrouter.ai/api/v1",
+  ? createOpenRouter({
       apiKey,
       headers: {
         "HTTP-Referer": "https://founderiq.vercel.app",
