@@ -1,8 +1,6 @@
 "use client";
 
-import { Sidebar } from "@/components/layout/sidebar";
-import { MobileNav } from "@/components/layout/mobile-nav";
-import { Header } from "@/components/layout/header";
+import { Sidebar, Header, MobileSidebar } from "@/components/layout";
 import { useFounderIQStore } from "@/store";
 import { cn } from "@/lib/utils";
 
@@ -12,6 +10,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div className="flex h-dvh overflow-hidden">
       <Sidebar />
+      <MobileSidebar />
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Header />
         <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8 md:py-8 pb-20 md:pb-8 flex justify-center">
@@ -25,7 +24,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         </main>
       </div>
-      <MobileNav />
     </div>
   );
 }

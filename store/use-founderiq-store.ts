@@ -15,6 +15,12 @@ interface FounderIQState {
   sidebarCollapsed: boolean;
   /** Toggle sidebar collapsed state. */
   toggleSidebar: () => void;
+  /** Mobile sidebar drawer state. */
+  mobileSidebarOpen: boolean;
+  /** Toggle mobile sidebar state. */
+  toggleMobileSidebar: () => void;
+  /** Set mobile sidebar state. */
+  setMobileSidebarOpen: (open: boolean) => void;
   /** Set the input text for a specific tool. */
   setInput: (tool: ToolId, value: string) => void;
   /** Add a completed analysis to history. */
@@ -36,8 +42,13 @@ export const useFounderIQStore = create<FounderIQState>()(
       },
       history: [],
       sidebarCollapsed: false,
+      mobileSidebarOpen: false,
 
       toggleSidebar: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
+
+      toggleMobileSidebar: () => set((state) => ({ mobileSidebarOpen: !state.mobileSidebarOpen })),
+
+      setMobileSidebarOpen: (open) => set({ mobileSidebarOpen: open }),
 
       setInput: (tool, value) =>
         set((state) => ({
