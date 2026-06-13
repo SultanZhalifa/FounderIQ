@@ -38,7 +38,7 @@ export default function CanvasPage() {
 
       {error && (
         <div className="text-sm text-destructive p-4 rounded-xl bg-destructive/10 border border-destructive/20 mb-4">
-          Analysis failed. Please check your API key and try again.
+          Analysis failed. Please check your API key or description, and try again.
         </div>
       )}
 

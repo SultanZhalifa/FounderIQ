@@ -134,12 +134,22 @@ export function IdeaInput({
           className="border-0 bg-transparent resize-none focus-visible:ring-0 text-sm leading-relaxed px-5 pt-5 pb-3 placeholder:text-muted-foreground/40"
         />
         <div className="flex items-center justify-between px-4 pb-3 pt-1 border-t border-border/50">
-          <span className="text-[11px] text-muted-foreground/50 font-mono">
-            {input.length > 0 ? `${input.length} characters` : TIPS[tool]}
+          <span className="text-[11px] font-mono">
+            {input.length > 0 ? (
+              input.trim().length < 10 ? (
+                <span className="text-amber-500/80">
+                  Please enter at least {10 - input.trim().length} more characters
+                </span>
+              ) : (
+                <span className="text-muted-foreground/50">{input.length} characters</span>
+              )
+            ) : (
+              <span className="text-muted-foreground/50">{TIPS[tool]}</span>
+            )}
           </span>
           <Button
             onClick={handleSubmit}
-            disabled={!input.trim() || isLoading}
+            disabled={input.trim().length < 10 || isLoading}
             size="sm"
             className="bg-foreground hover:bg-foreground/90 text-background disabled:opacity-30"
           >
