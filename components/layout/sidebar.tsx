@@ -109,9 +109,7 @@ export function Sidebar() {
       {/* Logo */}
       <div className={cn("border-b border-sidebar-border", collapsed ? "p-3" : "px-5 py-4")}>
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#8b8bf5] to-[#6b6bf5] flex items-center justify-center flex-shrink-0">
-            <span className="text-sm font-black text-white">F</span>
-          </div>
+          <img src="/logo.svg" alt="FounderIQ" className="w-8 h-8 rounded-lg flex-shrink-0" />
           {!collapsed && (
             <div>
               <div className="text-sm font-bold tracking-tight">FounderIQ</div>
@@ -145,14 +143,14 @@ export function Sidebar() {
               )}
               title={collapsed ? tool.name : undefined}
             >
-              <ToolIcon id={tool.id} className={isActive ? "text-[#8b8bf5]" : undefined} />
+              <ToolIcon id={tool.id} className={isActive ? "text-foreground" : undefined} />
               {!collapsed && (
                 <div className="min-w-0">
                   <div className="text-[13px] font-medium truncate">{tool.name}</div>
                   <div
                     className={cn(
                       "text-[10px] truncate",
-                      isActive ? "text-[#8b8bf5]/70" : "text-muted-foreground/40"
+                      isActive ? "text-foreground/60" : "text-muted-foreground/40"
                     )}
                   >
                     {tool.tagline}

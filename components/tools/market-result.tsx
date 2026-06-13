@@ -13,13 +13,13 @@ type PartialMarketResult = {
 
 const TIMING_COLORS: Record<string, string> = {
   Perfect: "#4ade80",
-  Good: "#8b8bf5",
+  Good: "#E5E5E5",
   Early: "#fbbf24",
   Late: "#f87171",
 };
 
 const TAM_SAM_SOM = [
-  { key: "tam" as const, label: "TAM", color: "#8b8bf5", width: "100%" },
+  { key: "tam" as const, label: "TAM", color: "#E5E5E5", width: "100%" },
   { key: "sam" as const, label: "SAM", color: "#60a5fa", width: "55%" },
   { key: "som" as const, label: "SOM", color: "#4ade80", width: "20%" },
 ];
@@ -43,7 +43,7 @@ interface MarketResultViewProps {
 
 export function MarketResultView({ data: rawData }: MarketResultViewProps) {
   const data = (rawData ?? {}) as PartialMarketResult;
-  const timingColor = data.timing ? (TIMING_COLORS[data.timing] ?? "#6b6b76") : "#6b6b76";
+  const timingColor = data.timing ? (TIMING_COLORS[data.timing] ?? "#737373") : "#737373";
 
   return (
     <motion.div
@@ -168,7 +168,7 @@ export function MarketResultView({ data: rawData }: MarketResultViewProps) {
         {/* Persona */}
         {data.targetPersona && (
           <Card className="p-5">
-            <SectionLabel color="#8b8bf5" icon={userIcon}>
+            <SectionLabel color="#A3A3A3" icon={userIcon}>
               Target Customer
             </SectionLabel>
             <p className="text-xs text-muted-foreground leading-relaxed">{data.targetPersona}</p>

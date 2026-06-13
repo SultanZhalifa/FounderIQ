@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
 
 const FEATURES = [
   {
@@ -94,24 +91,13 @@ const FEATURES = [
   },
 ];
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.5, ease: "easeOut" as const },
-  }),
-};
-
 export default function LandingPage() {
   return (
     <div className="min-h-dvh flex flex-col bg-background">
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 md:px-12 py-5">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#8b8bf5] to-[#6b6bf5] flex items-center justify-center">
-            <span className="text-sm font-black text-white">F</span>
-          </div>
+          <img src="/logo.svg" alt="FounderIQ" className="w-8 h-8 rounded-lg" />
           <span className="text-sm font-bold tracking-tight">FounderIQ</span>
         </div>
         <Link
@@ -136,104 +122,67 @@ export default function LandingPage() {
 
       {/* Hero */}
       <main className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-        <motion.div
-          className="max-w-2xl mx-auto"
-          initial="hidden"
-          animate="show"
-          variants={{
-            hidden: {},
-            show: { transition: { staggerChildren: 0.15 } },
-          }}
-        >
-          {/* Badge */}
-          <motion.div
-            variants={fadeUp}
-            custom={0}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-border text-[10px] font-medium text-muted-foreground mb-8 tracking-wide"
-          >
-            <div className="w-1.5 h-1.5 rounded-full bg-[#8b8bf5] animate-pulse" />
-            POWERED BY CLAUDE AI
-          </motion.div>
-
+        <div className="max-w-2xl mx-auto animate-[fadeUp_0.6s_ease-out_both]">
           {/* Headline */}
-          <motion.h1
-            variants={fadeUp}
-            custom={1}
-            className="text-4xl md:text-6xl font-black tracking-tight leading-[1.1] mb-4"
-          >
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-[1.1] mb-4">
             Your AI
             <br />
-            <span className="text-[#8b8bf5]">Co-Founder</span>
-          </motion.h1>
+            <span className="text-foreground">Co-Founder</span>
+          </h1>
 
           {/* Subtitle */}
-          <motion.p
-            variants={fadeUp}
-            custom={2}
-            className="text-base md:text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed"
-          >
-            Validate ideas, build business models, craft investor pitches, and analyze markets --
-            all in one place.
-          </motion.p>
+          <p className="text-base md:text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed">
+            Validate ideas, build business models, craft investor pitches, and analyze markets — all
+            in one place.
+          </p>
 
           {/* CTA */}
-          <motion.div variants={fadeUp} custom={3}>
-            <Link
-              href="/validate"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#8b8bf5] text-white text-sm font-semibold hover:bg-[#7a7ae8] transition-colors"
+          <Link
+            href="/validate"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-foreground text-background text-sm font-semibold hover:bg-foreground/90 transition-colors"
+          >
+            Open App
+            <svg
+              className="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              Open App
-              <svg
-                className="w-4 h-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </Link>
-          </motion.div>
-        </motion.div>
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </Link>
+        </div>
 
         {/* Feature grid */}
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mt-20 w-full"
-          initial="hidden"
-          animate="show"
-          variants={{
-            hidden: {},
-            show: { transition: { staggerChildren: 0.08, delayChildren: 0.5 } },
-          }}
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mt-20 w-full animate-[fadeUp_0.6s_ease-out_0.2s_both]">
           {FEATURES.map((feature) => (
-            <motion.div key={feature.id} variants={fadeUp} custom={0}>
-              <Link
-                href={feature.href}
-                className="group block p-5 rounded-xl border border-border bg-card hover:border-[#8b8bf5]/30 hover:bg-[#8b8bf5]/[0.03] transition-all duration-300"
-              >
-                <div className="text-muted-foreground group-hover:text-[#8b8bf5] transition-colors mb-3">
-                  {feature.icon}
-                </div>
-                <h3 className="text-sm font-semibold mb-1 group-hover:text-foreground transition-colors">
-                  {feature.name}
-                </h3>
-                <p className="text-[11px] text-muted-foreground/70 leading-relaxed">
-                  {feature.description}
-                </p>
-              </Link>
-            </motion.div>
+            <Link
+              key={feature.id}
+              href={feature.href}
+              className="group block p-5 rounded-xl border border-border bg-card hover:border-foreground/20 hover:bg-foreground/[0.03] transition-all duration-300 text-center"
+            >
+              <div className="text-muted-foreground group-hover:text-foreground transition-colors mb-3 flex justify-center">
+                {feature.icon}
+              </div>
+              <h3 className="text-sm font-semibold mb-1 group-hover:text-foreground transition-colors">
+                {feature.name}
+              </h3>
+              <p className="text-[11px] text-muted-foreground/70 leading-relaxed">
+                {feature.description}
+              </p>
+            </Link>
           ))}
-        </motion.div>
+        </div>
       </main>
 
       {/* Footer */}
       <footer className="flex items-center justify-center gap-4 px-6 py-6 text-[11px] text-muted-foreground/40">
         <span>FounderIQ</span>
-        <span>--</span>
+        <span>—</span>
         <a
           href="https://github.com"
           target="_blank"

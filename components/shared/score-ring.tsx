@@ -11,7 +11,7 @@ interface ScoreRingProps {
 
 const VERDICT_CONFIG = {
   exceptional: { color: "#4ade80", label: "Exceptional" },
-  promising: { color: "#8b8bf5", label: "Promising" },
+  promising: { color: "#E5E5E5", label: "Promising" },
   needsWork: { color: "#fbbf24", label: "Needs Work" },
   risky: { color: "#f87171", label: "Risky" },
 } as const;

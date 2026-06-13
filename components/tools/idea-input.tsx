@@ -96,7 +96,7 @@ export function IdeaInput({
             onClick={handleSubmit}
             disabled={!input.trim() || isLoading}
             size="sm"
-            className="bg-[#8b8bf5] hover:bg-[#7a7ae8] text-white disabled:opacity-30"
+            className="bg-foreground hover:bg-foreground/90 text-background disabled:opacity-30"
           >
             {isLoading ? (
               <>

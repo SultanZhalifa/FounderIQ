@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-heading: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 
   /* shadcn semantic colors */
   --color-sidebar-ring: var(--sidebar-ring);
@@ -98,42 +98,46 @@
   --fiq-info: #3b82f6;
 }
 
-/* FounderIQ dark theme -- monochromatic with subtle violet accent */
+/*
+ * FounderIQ dark theme
+ * Design: Warm monochrome — pure black/white base, zero blue tint
+ * Functional color only for semantic differentiation (scores, status)
+ */
 .dark {
-  --background: #050508;
-  --foreground: #ededf0;
-  --card: #0a0a0f;
-  --card-foreground: #ededf0;
-  --popover: #0a0a0f;
-  --popover-foreground: #ededf0;
-  --primary: #ededf0;
-  --primary-foreground: #050508;
-  --secondary: #111118;
-  --secondary-foreground: #ededf0;
-  --muted: #111118;
-  --muted-foreground: #6b6b76;
-  --accent: #16161e;
-  --accent-foreground: #ededf0;
-  --destructive: #f87171;
-  --border: #1a1a24;
-  --input: #1a1a24;
-  --ring: #8b8bf5;
-  --chart-1: #ededf0;
-  --chart-2: #9b9ba8;
-  --chart-3: #6b6b76;
-  --chart-4: #3a3a48;
-  --chart-5: #1a1a24;
+  --background: #0a0a0a;
+  --foreground: #e5e5e5;
+  --card: #111111;
+  --card-foreground: #e5e5e5;
+  --popover: #111111;
+  --popover-foreground: #e5e5e5;
+  --primary: #e5e5e5;
+  --primary-foreground: #0a0a0a;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #e5e5e5;
+  --muted: #1a1a1a;
+  --muted-foreground: #737373;
+  --accent: #1a1a1a;
+  --accent-foreground: #e5e5e5;
+  --destructive: #dc2626;
+  --border: #262626;
+  --input: #262626;
+  --ring: #a3a3a3;
+  --chart-1: #e5e5e5;
+  --chart-2: #a3a3a3;
+  --chart-3: #737373;
+  --chart-4: #404040;
+  --chart-5: #262626;
   --radius: 0.625rem;
-  --sidebar: #08080d;
-  --sidebar-foreground: #ededf0;
-  --sidebar-primary: #8b8bf5;
-  --sidebar-primary-foreground: #050508;
-  --sidebar-accent: #111118;
-  --sidebar-accent-foreground: #ededf0;
-  --sidebar-border: #1a1a24;
-  --sidebar-ring: #8b8bf5;
-  --fiq-surface: #0a0a0f;
-  --fiq-surface-raised: #111118;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #e5e5e5;
+  --sidebar-primary: #e5e5e5;
+  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #e5e5e5;
+  --sidebar-border: #1f1f1f;
+  --sidebar-ring: #a3a3a3;
+  --fiq-surface: #111111;
+  --fiq-surface-raised: #1a1a1a;
   --fiq-success: #4ade80;
   --fiq-warning: #fbbf24;
   --fiq-info: #60a5fa;
@@ -166,5 +170,16 @@
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--muted-foreground);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

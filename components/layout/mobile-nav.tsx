@@ -27,9 +27,9 @@ export function MobileNav() {
               )}
             >
               {isActive && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-[#8b8bf5] rounded-full" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-foreground rounded-full" />
               )}
-              <ToolIcon id={tool.id} className={cn("w-5 h-5", isActive && "text-[#8b8bf5]")} />
+              <ToolIcon id={tool.id} className={cn("w-5 h-5", isActive && "text-foreground")} />
               <span className="text-[9px] font-medium tracking-wide">
                 {tool.name.split(" ")[0]}
               </span>

@@ -97,7 +97,7 @@ export function BMCResultView({ data: rawData }: BMCResultViewProps) {
             transition={{ delay: idx * 0.05, duration: 0.3 }}
           >
             <SectionLabel
-              color={cell.highlight ? "#8b8bf5" : "#6b6b76"}
+              color={cell.highlight ? "#E5E5E5" : "#737373"}
               className="!text-[9px] !tracking-[1.5px] !mb-2"
             >
               {cell.label}

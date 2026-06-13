@@ -13,7 +13,7 @@ type PartialValidateResult = {
 
 const VERDICT_COLORS: Record<string, string> = {
   Exceptional: "#4ade80",
-  Promising: "#8b8bf5",
+  Promising: "#E5E5E5",
   "Needs Work": "#fbbf24",
   Risky: "#f87171",
 };
@@ -37,7 +37,7 @@ interface ValidateResultViewProps {
 
 export function ValidateResultView({ data: rawData }: ValidateResultViewProps) {
   const data = (rawData ?? {}) as PartialValidateResult;
-  const verdictColor = data.verdict ? (VERDICT_COLORS[data.verdict] ?? "#6b6b76") : "#6b6b76";
+  const verdictColor = data.verdict ? (VERDICT_COLORS[data.verdict] ?? "#737373") : "#737373";
 
   return (
     <motion.div
@@ -75,7 +75,7 @@ export function ValidateResultView({ data: rawData }: ValidateResultViewProps) {
         {data.summary && (
           <motion.div variants={item}>
             <Card className="p-5">
-              <SectionLabel color="#8b8bf5">AI Analysis</SectionLabel>
+              <SectionLabel color="#A3A3A3">AI Analysis</SectionLabel>
               <p className="text-[13px] text-muted-foreground leading-relaxed">{data.summary}</p>
             </Card>
           </motion.div>

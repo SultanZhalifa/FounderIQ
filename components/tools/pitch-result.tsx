@@ -38,8 +38,8 @@ export function PitchResultView({ data: rawData }: PitchResultViewProps) {
       {/* Tagline */}
       {data.tagline && (
         <motion.div variants={item}>
-          <Card className="text-center p-8 border-[#8b8bf5]/20 bg-[#8b8bf5]/[0.03]">
-            <div className="text-[10px] text-[#8b8bf5] tracking-[3px] font-bold mb-3 uppercase">
+          <Card className="text-center p-8 border-foreground/10 bg-foreground/[0.02]">
+            <div className="text-[10px] text-muted-foreground tracking-[3px] font-bold mb-3 uppercase">
               YOUR TAGLINE
             </div>
             <div className="text-2xl md:text-3xl font-black tracking-tight text-foreground/90">
@@ -52,8 +52,8 @@ export function PitchResultView({ data: rawData }: PitchResultViewProps) {
       {/* Elevator pitch */}
       {data.elevatorPitch && (
         <motion.div variants={item}>
-          <Card className="p-5 border-[#8b8bf5]/15 bg-[#8b8bf5]/[0.02]">
-            <SectionLabel color="#8b8bf5" icon={boltIcon}>
+          <Card className="p-5 border-foreground/10 bg-foreground/[0.02]">
+            <SectionLabel color="#A3A3A3" icon={boltIcon}>
               30-Second Elevator Pitch
             </SectionLabel>
             <p className="text-sm text-foreground/70 leading-relaxed italic">
