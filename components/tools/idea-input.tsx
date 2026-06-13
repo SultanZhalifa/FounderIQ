@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useFounderIQStore } from "@/store";
@@ -14,6 +15,24 @@ const SAMPLES: Record<ToolId, string> = {
     "EdTech platform that gamifies financial literacy for Gen-Z, using micro-investments starting from $1 and social competitions between friends to build saving habits early.",
   market:
     "B2B SaaS for logistics companies to optimize last-mile delivery routes using real-time traffic data, AI weather prediction, and capacitated vehicle routing algorithms.",
+};
+
+const PLACEHOLDERS: Record<ToolId, string> = {
+  validate:
+    "Describe your startup idea in detail. Include the core problem you're solving, your target customer profile, the proposed solution, and your monetization model...",
+  canvas:
+    "Outline your business model concept. What is your key value proposition, who are your key partners, what channels will you use to reach customers, and how is the cost structure aligned?",
+  pitch:
+    "Describe the venture you are pitching. Who is the team, what is your unfair advantage, how much capital are you raising, and what will the funding be used to achieve?",
+  market:
+    "Define your target market space. Which geographical region (e.g. US, SE Asia) are you focusing on, who are the key buyers, and what is your pricing structure (e.g. SaaS subscription, transaction fee)?",
+};
+
+const TIPS: Record<ToolId, string> = {
+  validate: "Tip: Detail the pain point and how your solution uniquely solves it.",
+  canvas: "Tip: Focus on how value is created, delivered, and captured.",
+  pitch: "Tip: Highlight your team's background, funding needs, and market hook.",
+  market: "Tip: Specify geographical boundary, customer segments, and pricing model.",
 };
 
 interface IdeaInputProps {
@@ -35,6 +54,34 @@ export function IdeaInput({
 }: IdeaInputProps) {
   const input = useFounderIQStore((s) => s.inputs[tool]);
   const setInput = useFounderIQStore((s) => s.setInput);
+
+  const [displayedPlaceholder, setDisplayedPlaceholder] = useState("");
+
+  useEffect(() => {
+    const fullText = PLACEHOLDERS[tool];
+    let currentText = "";
+    let i = 0;
+
+    // Reset placeholder asynchronously to avoid react-hooks/set-state-in-effect warning
+    const resetTimeout = setTimeout(() => {
+      setDisplayedPlaceholder("");
+    }, 0);
+
+    const interval = setInterval(() => {
+      if (i < fullText.length) {
+        currentText += fullText[i];
+        setDisplayedPlaceholder(currentText);
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 12); // Snappy typing speed (12ms/character)
+
+    return () => {
+      clearTimeout(resetTimeout);
+      clearInterval(interval);
+    };
+  }, [tool]);
 
   const handleSubmit = () => {
     if (input.trim()) {
@@ -82,15 +129,13 @@ export function IdeaInput({
         <Textarea
           value={input}
           onChange={(e) => setInput(tool, e.target.value)}
-          placeholder="Describe your startup idea in detail. Include the problem you're solving, your target market, and your proposed solution..."
+          placeholder={displayedPlaceholder}
           rows={5}
           className="border-0 bg-transparent resize-none focus-visible:ring-0 text-sm leading-relaxed px-5 pt-5 pb-3 placeholder:text-muted-foreground/40"
         />
         <div className="flex items-center justify-between px-4 pb-3 pt-1 border-t border-border/50">
           <span className="text-[11px] text-muted-foreground/50 font-mono">
-            {input.length > 0
-              ? `${input.length} characters`
-              : "Tip: be specific about your target market and solution"}
+            {input.length > 0 ? `${input.length} characters` : TIPS[tool]}
           </span>
           <Button
             onClick={handleSubmit}
