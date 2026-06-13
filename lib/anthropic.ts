@@ -16,7 +16,7 @@ export const model = isOpenRouter
         "HTTP-Referer": "https://founderiq.vercel.app",
         "X-Title": "FounderIQ",
       },
-    })("anthropic/claude-3.5-sonnet")
+    })("google/gemma-2-9b-it:free")
   : createAnthropic({
       apiKey,
     })("claude-sonnet-4-6");
