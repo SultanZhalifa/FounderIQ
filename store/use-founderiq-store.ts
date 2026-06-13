@@ -11,6 +11,10 @@ interface FounderIQState {
   inputs: Record<ToolId, string>;
   /** Analysis history (most recent first). */
   history: HistoryEntry[];
+  /** Sidebar collapsed state. */
+  sidebarCollapsed: boolean;
+  /** Toggle sidebar collapsed state. */
+  toggleSidebar: () => void;
   /** Set the input text for a specific tool. */
   setInput: (tool: ToolId, value: string) => void;
   /** Add a completed analysis to history. */
@@ -31,6 +35,9 @@ export const useFounderIQStore = create<FounderIQState>()(
         market: "",
       },
       history: [],
+      sidebarCollapsed: false,
+
+      toggleSidebar: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
 
       setInput: (tool, value) =>
         set((state) => ({
@@ -64,6 +71,7 @@ export const useFounderIQStore = create<FounderIQState>()(
       partialize: (state) => ({
         inputs: state.inputs,
         history: state.history,
+        sidebarCollapsed: state.sidebarCollapsed,
       }),
     }
   )
