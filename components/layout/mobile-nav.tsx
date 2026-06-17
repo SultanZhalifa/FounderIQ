@@ -6,6 +6,11 @@ import { cn } from "@/lib/utils";
 import { useMobile } from "@/hooks";
 import { TOOLS, ToolIcon } from "./sidebar";
 
+const NAV_ITEMS = [
+  ...TOOLS,
+  { id: "report", name: "Report", tagline: "All tools", href: "/report" },
+];
+
 export function MobileNav() {
   const pathname = usePathname();
   const isMobile = useMobile(768);
@@ -13,9 +18,12 @@ export function MobileNav() {
   if (!isMobile) return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-xl border-t border-border">
+    <nav
+      data-app-chrome
+      className="fixed bottom-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-xl border-t border-border"
+    >
       <div className="flex items-center justify-around h-14">
-        {TOOLS.map((tool) => {
+        {NAV_ITEMS.map((tool) => {
           const isActive = pathname === tool.href;
           return (
             <Link

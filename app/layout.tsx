@@ -15,14 +15,35 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FounderIQ -- AI Co-Founder Platform",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://founderiq.vercel.app"),
+  title: {
+    default: "FounderIQ -- AI Co-Founder Platform",
+    template: "%s · FounderIQ",
+  },
+  applicationName: "FounderIQ",
   description:
     "Validate startup ideas, generate business models, craft investor pitches, and analyze markets with AI-powered tools.",
+  keywords: [
+    "startup idea validator",
+    "business model canvas generator",
+    "investor pitch generator",
+    "market analysis",
+    "TAM SAM SOM",
+    "AI co-founder",
+    "startup tools",
+  ],
   openGraph: {
     title: "FounderIQ -- AI Co-Founder Platform",
     description:
       "Validate startup ideas, generate business models, craft investor pitches, and analyze markets.",
     type: "website",
+    siteName: "FounderIQ",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FounderIQ -- AI Co-Founder Platform",
+    description:
+      "Validate startup ideas, generate business models, craft investor pitches, and analyze markets.",
   },
 };
 

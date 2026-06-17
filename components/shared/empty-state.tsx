@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 
 interface EmptyStateProps {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   title: string;
   description: string;
 }
@@ -16,7 +16,7 @@ export function EmptyState({ icon, title, description }: EmptyStateProps) {
       animate={{ opacity: 0.4 }}
       transition={{ duration: 0.4 }}
     >
-      <div className="text-muted-foreground">{icon}</div>
+      {icon && <div className="text-muted-foreground">{icon}</div>}
       <div className="text-center max-w-[280px]">
         <h3 className="text-sm font-medium text-muted-foreground mb-1">{title}</h3>
         <p className="text-xs text-muted-foreground/70">{description}</p>

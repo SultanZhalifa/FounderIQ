@@ -1,12 +1,17 @@
 "use client";
 
-import { useAnalyze } from "@/hooks";
+import { useAnalyze, useIdeaFromUrl } from "@/hooks";
 import { IdeaInput } from "@/components/tools/idea-input";
 import { BMCResultView } from "@/components/tools/bmc-result";
+import { ResultActions } from "@/components/tools/result-actions";
 import { CanvasSkeleton, EmptyState } from "@/components/shared";
+import { analysisToMarkdown, slugify } from "@/lib/export";
+import { buildShareUrl } from "@/lib/share";
+import type { CanvasResult } from "@/types";
 
 export default function CanvasPage() {
-  const { result, isLoading, error, analyze } = useAnalyze("canvas");
+  const { result, isLoading, error, analyze, analyzedIdea } = useAnalyze("canvas");
+  useIdeaFromUrl("canvas", analyze);
 
   const toolIcon = (
     <svg
@@ -17,6 +22,8 @@ export default function CanvasPage() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
     >
       <rect x="3" y="3" width="7" height="7" />
       <rect x="14" y="3" width="7" height="7" />
@@ -44,7 +51,16 @@ export default function CanvasPage() {
 
       {isLoading && !result && <CanvasSkeleton />}
 
-      {result && <BMCResultView data={result as Partial<import("@/types").CanvasResult>} />}
+      {result && <BMCResultView data={result as Partial<CanvasResult>} />}
+
+      {result && !isLoading && analyzedIdea && (
+        <ResultActions
+          className="mt-4"
+          markdown={analysisToMarkdown("canvas", analyzedIdea, result as CanvasResult)}
+          filenameBase={`founderiq-canvas-${slugify(analyzedIdea)}`}
+          shareUrl={buildShareUrl("canvas", analyzedIdea, true)}
+        />
+      )}
 
       {!result && !isLoading && !error && (
         <EmptyState

@@ -8,12 +8,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const sidebarCollapsed = useFounderIQStore((s) => s.sidebarCollapsed);
 
   return (
-    <div className="flex h-dvh overflow-hidden">
+    <div className="flex h-dvh overflow-hidden" data-app-shell>
       <Sidebar />
       <MobileSidebar />
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden" data-app-shell>
         <Header />
-        <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8 md:py-8 pb-20 md:pb-8 flex justify-center">
+        <main
+          data-app-shell
+          className="flex-1 overflow-y-auto px-4 py-6 md:px-8 md:py-8 pb-20 md:pb-8 flex justify-center"
+        >
           <div
             className={cn(
               "w-full transition-all duration-300 ease-in-out",

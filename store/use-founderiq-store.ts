@@ -2,15 +2,22 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { ToolId, HistoryEntry } from "@/types";
+import type { ToolId, AnalysisRecord, AnalysisResultData } from "@/types";
 
-const MAX_HISTORY = 10;
+const MAX_RECORDS = 50;
+
+const EMPTY_INPUTS: Record<ToolId, string> = {
+  validate: "",
+  canvas: "",
+  pitch: "",
+  market: "",
+};
 
 interface FounderIQState {
   /** Current input text per tool. */
   inputs: Record<ToolId, string>;
-  /** Analysis history (most recent first). */
-  history: HistoryEntry[];
+  /** Saved analyses with their full results (most recent first). */
+  records: AnalysisRecord[];
   /** Sidebar collapsed state. */
   sidebarCollapsed: boolean;
   /** Toggle sidebar collapsed state. */
@@ -23,24 +30,21 @@ interface FounderIQState {
   setMobileSidebarOpen: (open: boolean) => void;
   /** Set the input text for a specific tool. */
   setInput: (tool: ToolId, value: string) => void;
-  /** Add a completed analysis to history. */
-  addToHistory: (entry: Omit<HistoryEntry, "id" | "timestamp">) => void;
-  /** Load an idea from history into the specified tool's input. */
-  loadFromHistory: (entry: HistoryEntry) => void;
-  /** Clear all history. */
-  clearHistory: () => void;
+  /** Persist a completed analysis and return its generated id. */
+  saveRecord: (entry: { tool: ToolId; idea: string; result: AnalysisResultData }) => string;
+  /** Look up a saved analysis by id. */
+  getRecord: (id: string) => AnalysisRecord | undefined;
+  /** Remove a single saved analysis. */
+  removeRecord: (id: string) => void;
+  /** Clear all saved analyses. */
+  clearRecords: () => void;
 }
 
 export const useFounderIQStore = create<FounderIQState>()(
   persist(
-    (set) => ({
-      inputs: {
-        validate: "",
-        canvas: "",
-        pitch: "",
-        market: "",
-      },
-      history: [],
+    (set, get) => ({
+      inputs: { ...EMPTY_INPUTS },
+      records: [],
       sidebarCollapsed: false,
       mobileSidebarOpen: false,
 
@@ -55,35 +59,49 @@ export const useFounderIQStore = create<FounderIQState>()(
           inputs: { ...state.inputs, [tool]: value },
         })),
 
-      addToHistory: (entry) =>
+      saveRecord: (entry) => {
+        const id = crypto.randomUUID();
         set((state) => {
-          const newEntry: HistoryEntry = {
-            ...entry,
-            id: crypto.randomUUID(),
-            timestamp: Date.now(),
-          };
-          const filtered = state.history.filter(
-            (h) => !(h.idea === entry.idea && h.tool === entry.tool)
+          const record: AnalysisRecord = { ...entry, id, createdAt: Date.now() };
+          // Replace any prior analysis for the same idea + tool, newest first.
+          const deduped = state.records.filter(
+            (r) => !(r.idea === entry.idea && r.tool === entry.tool)
           );
-          return {
-            history: [newEntry, ...filtered].slice(0, MAX_HISTORY),
-          };
-        }),
+          return { records: [record, ...deduped].slice(0, MAX_RECORDS) };
+        });
+        return id;
+      },
 
-      loadFromHistory: (entry) =>
-        set((state) => ({
-          inputs: { ...state.inputs, [entry.tool]: entry.idea },
-        })),
+      getRecord: (id) => get().records.find((r) => r.id === id),
 
-      clearHistory: () => set({ history: [] }),
+      removeRecord: (id) => set((state) => ({ records: state.records.filter((r) => r.id !== id) })),
+
+      clearRecords: () => set({ records: [] }),
     }),
     {
       name: "founderiq-store",
+      version: 2,
       partialize: (state) => ({
         inputs: state.inputs,
-        history: state.history,
+        records: state.records,
         sidebarCollapsed: state.sidebarCollapsed,
       }),
+      // v1 stored a `history` array of ideas without results — drop it on upgrade.
+      migrate: (persisted, version) => {
+        const prev = (persisted ?? {}) as Partial<FounderIQState> & {
+          history?: unknown;
+          inputs?: Record<ToolId, string>;
+          sidebarCollapsed?: boolean;
+        };
+        if (version < 2) {
+          return {
+            inputs: prev.inputs ?? { ...EMPTY_INPUTS },
+            records: [],
+            sidebarCollapsed: prev.sidebarCollapsed ?? false,
+          } as unknown as FounderIQState;
+        }
+        return persisted as FounderIQState;
+      },
     }
   )
 );

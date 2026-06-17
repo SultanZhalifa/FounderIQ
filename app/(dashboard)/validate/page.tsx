@@ -1,12 +1,17 @@
 "use client";
 
-import { useAnalyze } from "@/hooks";
+import { useAnalyze, useIdeaFromUrl } from "@/hooks";
 import { IdeaInput } from "@/components/tools/idea-input";
 import { ValidateResultView } from "@/components/tools/validate-result";
+import { ResultActions } from "@/components/tools/result-actions";
 import { ValidateSkeleton, EmptyState } from "@/components/shared";
+import { analysisToMarkdown, slugify } from "@/lib/export";
+import { buildShareUrl } from "@/lib/share";
+import type { ValidateResult } from "@/types";
 
 export default function ValidatePage() {
-  const { result, isLoading, error, analyze } = useAnalyze("validate");
+  const { result, isLoading, error, analyze, analyzedIdea } = useAnalyze("validate");
+  useIdeaFromUrl("validate", analyze);
 
   const toolIcon = (
     <svg
@@ -17,6 +22,8 @@ export default function ValidatePage() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
     >
       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
       <polyline points="22 4 12 14.01 9 11.01" />
@@ -42,7 +49,16 @@ export default function ValidatePage() {
 
       {isLoading && !result && <ValidateSkeleton />}
 
-      {result && <ValidateResultView data={result as Partial<import("@/types").ValidateResult>} />}
+      {result && <ValidateResultView data={result as Partial<ValidateResult>} />}
+
+      {result && !isLoading && analyzedIdea && (
+        <ResultActions
+          className="mt-4"
+          markdown={analysisToMarkdown("validate", analyzedIdea, result as ValidateResult)}
+          filenameBase={`founderiq-validate-${slugify(analyzedIdea)}`}
+          shareUrl={buildShareUrl("validate", analyzedIdea, true)}
+        />
+      )}
 
       {!result && !isLoading && !error && (
         <EmptyState

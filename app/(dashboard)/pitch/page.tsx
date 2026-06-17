@@ -1,12 +1,17 @@
 "use client";
 
-import { useAnalyze } from "@/hooks";
+import { useAnalyze, useIdeaFromUrl } from "@/hooks";
 import { IdeaInput } from "@/components/tools/idea-input";
 import { PitchResultView } from "@/components/tools/pitch-result";
+import { ResultActions } from "@/components/tools/result-actions";
 import { PitchSkeleton, EmptyState } from "@/components/shared";
+import { analysisToMarkdown, slugify } from "@/lib/export";
+import { buildShareUrl } from "@/lib/share";
+import type { PitchResult } from "@/types";
 
 export default function PitchPage() {
-  const { result, isLoading, error, analyze } = useAnalyze("pitch");
+  const { result, isLoading, error, analyze, analyzedIdea } = useAnalyze("pitch");
+  useIdeaFromUrl("pitch", analyze);
 
   const toolIcon = (
     <svg
@@ -17,6 +22,8 @@ export default function PitchPage() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
     >
       <circle cx="12" cy="12" r="10" />
       <circle cx="12" cy="12" r="6" />
@@ -43,7 +50,16 @@ export default function PitchPage() {
 
       {isLoading && !result && <PitchSkeleton />}
 
-      {result && <PitchResultView data={result} />}
+      {result && <PitchResultView data={result as Partial<PitchResult>} />}
+
+      {result && !isLoading && analyzedIdea && (
+        <ResultActions
+          className="mt-4"
+          markdown={analysisToMarkdown("pitch", analyzedIdea, result as PitchResult)}
+          filenameBase={`founderiq-pitch-${slugify(analyzedIdea)}`}
+          shareUrl={buildShareUrl("pitch", analyzedIdea, true)}
+        />
+      )}
 
       {!result && !isLoading && !error && (
         <EmptyState

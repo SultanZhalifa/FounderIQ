@@ -183,3 +183,53 @@
     transform: translateY(0);
   }
 }
+
+/*
+ * Print / "Save as PDF" — strip app chrome and render the result as a clean,
+ * light, multi-page document. The app is dark-themed (html.dark), so re-map the
+ * core tokens to light values inside the print context.
+ */
+@media print {
+  .dark {
+    --background: #ffffff;
+    --foreground: #111111;
+    --card: #ffffff;
+    --card-foreground: #111111;
+    --popover: #ffffff;
+    --muted: #f5f5f5;
+    --muted-foreground: #555555;
+    --accent: #f5f5f5;
+    --accent-foreground: #111111;
+    --border: #d4d4d4;
+    --input: #d4d4d4;
+    --fiq-surface: #f5f5f5;
+    --fiq-surface-raised: #e8e8e8;
+  }
+
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+
+  /* Hide navigation / sidebars / headers and any element opted out of print. */
+  [data-app-chrome],
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Let the scroll containers flow naturally so content paginates. */
+  [data-app-shell] {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    display: block !important;
+    padding: 0 !important;
+  }
+
+  /* Avoid splitting result cards across pages where possible. */
+  [data-slot="card"] {
+    break-inside: avoid;
+  }
+}

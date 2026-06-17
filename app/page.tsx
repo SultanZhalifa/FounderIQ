@@ -177,6 +177,31 @@ export default function LandingPage() {
             </Link>
           ))}
         </div>
+
+        {/* Full Report highlight */}
+        <Link
+          href="/report"
+          className="group inline-flex items-center gap-2 mt-8 px-4 py-2 rounded-full border border-border bg-card text-xs font-medium text-muted-foreground hover:text-foreground hover:border-foreground/20 transition-colors animate-[fadeUp_0.6s_ease-out_0.3s_both]"
+        >
+          <span className="text-[9px] font-bold tracking-[1.5px] uppercase text-foreground/80 bg-foreground/10 rounded px-1.5 py-0.5">
+            New
+          </span>
+          Generate a Full Report — all four tools on one idea
+          <svg
+            className="w-3.5 h-3.5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </Link>
       </main>
 
       {/* Footer */}

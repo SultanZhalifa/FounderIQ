@@ -15,6 +15,9 @@
 - **Business Canvas** -- Auto-generate a full 9-box Business Model Canvas in seconds.
 - **Pitch Crafter** -- Craft a punchy tagline, 30-second elevator pitch, and full investor narrative.
 - **Market Intel** -- Understand your TAM/SAM/SOM, top competitors, and go-to-market strategy.
+- **Full Report** -- Run all four tools on a single idea at once for a complete startup brief.
+- **History** -- Every analysis is saved locally and can be reopened, re-run, exported, or deleted.
+- **Export & Share** -- Copy or download any result as Markdown, print / save as a clean PDF, or share a link that re-generates the analysis.
 
 All tools stream structured AI responses in real-time using the Vercel AI SDK.
 
@@ -32,6 +35,7 @@ All tools stream structured AI responses in real-time using the Vercel AI SDK.
 | AI          | Vercel AI SDK + Anthropic Claude    |
 | State       | Zustand (persisted to localStorage) |
 | Validation  | Zod                                 |
+| Testing     | Vitest                              |
 | Package Mgr | pnpm                                |
 | Deployment  | Vercel                              |
 
@@ -79,20 +83,39 @@ founderiq/
       canvas/             -- Business Model Canvas tool
       pitch/              -- Pitch crafting tool
       market/             -- Market analysis tool
-    api/analyze/          -- Streaming AI endpoint
+      report/             -- Full Report (all four tools at once)
+      history/            -- Saved analyses (list + [id] detail)
+    api/analyze/          -- Streaming AI endpoint (rate-limited)
+    robots.ts, sitemap.ts -- SEO
     page.tsx              -- Landing page
-    layout.tsx            -- Root layout
+    layout.tsx            -- Root layout + metadata
   components/
     ui/                   -- shadcn/ui primitives
     layout/               -- Sidebar, header, mobile nav
-    tools/                -- Tool-specific result views
+    tools/                -- Result views, ResultActions, ResultView
     shared/               -- Reusable components
-  hooks/                  -- Custom React hooks
-  store/                  -- Zustand state management
+  hooks/                  -- useAnalyze, useReport, useIdeaFromUrl, useHydrated
+  store/                  -- Zustand store (persists full analysis records)
   prompts/                -- AI system prompts
-  lib/                    -- Utilities and config
+  lib/                    -- export, share, rate-limit, format, utils, config
   types/                  -- TypeScript type definitions
+  __tests__/              -- Vitest unit tests
 ```
+
+---
+
+## Scripts
+
+```bash
+pnpm dev      # start the dev server
+pnpm build    # production build (type-checks the whole app)
+pnpm lint     # ESLint
+pnpm test     # run the Vitest unit suite
+pnpm format   # Prettier
+```
+
+Tests cover the Markdown export serializers, the Zod request/result schemas, and the
+API rate limiter (`__tests__/`).
 
 ---
 

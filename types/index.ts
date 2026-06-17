@@ -72,12 +72,19 @@ export type AnalysisResult =
   | { tool: "pitch"; data: PitchResult }
   | { tool: "market"; data: MarketResult };
 
-/** A single entry in the analysis history. */
-export interface HistoryEntry {
+/** The result payload for any tool. */
+export type AnalysisResultData = ValidateResult | CanvasResult | PitchResult | MarketResult;
+
+/**
+ * A completed analysis, persisted so it can be revisited, exported, and shared.
+ * Stores the full `result` (not just the idea), keyed by `id`.
+ */
+export interface AnalysisRecord {
   id: string;
-  idea: string;
   tool: ToolId;
-  timestamp: number;
+  idea: string;
+  result: AnalysisResultData;
+  createdAt: number;
 }
 
 /* ------------------------------------------------------------------ */

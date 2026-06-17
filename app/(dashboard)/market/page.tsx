@@ -1,12 +1,17 @@
 "use client";
 
-import { useAnalyze } from "@/hooks";
+import { useAnalyze, useIdeaFromUrl } from "@/hooks";
 import { IdeaInput } from "@/components/tools/idea-input";
 import { MarketResultView } from "@/components/tools/market-result";
+import { ResultActions } from "@/components/tools/result-actions";
 import { MarketSkeleton, EmptyState } from "@/components/shared";
+import { analysisToMarkdown, slugify } from "@/lib/export";
+import { buildShareUrl } from "@/lib/share";
+import type { MarketResult } from "@/types";
 
 export default function MarketPage() {
-  const { result, isLoading, error, analyze } = useAnalyze("market");
+  const { result, isLoading, error, analyze, analyzedIdea } = useAnalyze("market");
+  useIdeaFromUrl("market", analyze);
 
   const toolIcon = (
     <svg
@@ -17,6 +22,8 @@ export default function MarketPage() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
     >
       <line x1="18" y1="20" x2="18" y2="10" />
       <line x1="12" y1="20" x2="12" y2="4" />
@@ -43,7 +50,16 @@ export default function MarketPage() {
 
       {isLoading && !result && <MarketSkeleton />}
 
-      {result && <MarketResultView data={result as Partial<import("@/types").MarketResult>} />}
+      {result && <MarketResultView data={result as Partial<MarketResult>} />}
+
+      {result && !isLoading && analyzedIdea && (
+        <ResultActions
+          className="mt-4"
+          markdown={analysisToMarkdown("market", analyzedIdea, result as MarketResult)}
+          filenameBase={`founderiq-market-${slugify(analyzedIdea)}`}
+          shareUrl={buildShareUrl("market", analyzedIdea, true)}
+        />
+      )}
 
       {!result && !isLoading && !error && (
         <EmptyState
