@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useFounderIQStore } from "@/store";
 import type { ToolId } from "@/types";
+import { IDEA_MAX_LENGTH } from "@/lib/validations";
 
 const SAMPLES: Record<ToolId, string> = {
   validate:
@@ -131,6 +132,7 @@ export function IdeaInput({
           onChange={(e) => setInput(tool, e.target.value)}
           placeholder={displayedPlaceholder}
           rows={5}
+          maxLength={IDEA_MAX_LENGTH}
           className="border-0 bg-transparent resize-none focus-visible:ring-0 text-sm leading-relaxed px-5 pt-5 pb-3 placeholder:text-muted-foreground/40"
         />
         <div className="flex items-center justify-between px-4 pb-3 pt-1 border-t border-border/50">

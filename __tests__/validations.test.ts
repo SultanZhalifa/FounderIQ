@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { analyzeRequestSchema, validateResultSchema, toolSchemas } from "@/lib/validations";
+import {
+  analyzeRequestSchema,
+  validateResultSchema,
+  toolSchemas,
+  IDEA_MAX_LENGTH,
+} from "@/lib/validations";
 
 describe("analyzeRequestSchema", () => {
   it("accepts a valid request", () => {
@@ -20,6 +25,14 @@ describe("analyzeRequestSchema", () => {
 
   it("rejects ideas shorter than 10 characters", () => {
     const result = analyzeRequestSchema.safeParse({ tool: "validate", idea: "short" });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects ideas longer than IDEA_MAX_LENGTH", () => {
+    const result = analyzeRequestSchema.safeParse({
+      tool: "validate",
+      idea: "x".repeat(IDEA_MAX_LENGTH + 1),
+    });
     expect(result.success).toBe(false);
   });
 });
