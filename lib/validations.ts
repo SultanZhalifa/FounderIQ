@@ -52,9 +52,15 @@ export const marketResultSchema = z.object({
   entryAdvice: z.string(),
 });
 
+/** Caps prompt size (and API cost) per request. */
+export const IDEA_MAX_LENGTH = 4000;
+
 export const analyzeRequestSchema = z.object({
   tool: z.enum(["validate", "canvas", "pitch", "market"]),
-  idea: z.string().min(10, "Idea must be at least 10 characters"),
+  idea: z
+    .string()
+    .min(10, "Idea must be at least 10 characters")
+    .max(IDEA_MAX_LENGTH, `Idea must be ${IDEA_MAX_LENGTH} characters or fewer`),
 });
 
 /** Map tool IDs to their Zod schemas. */
